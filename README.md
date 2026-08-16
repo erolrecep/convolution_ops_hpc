@@ -117,13 +117,59 @@ Build a 2D table on one-side is programming language with tools and other size i
 |**Python with PyTorch**| 0.2711s | 0.3989s | 0.2623s | 0.2574s |
 
 
-## To-Do List
- - Create two sub-projects one Python and the other C
- - Create a Makefile to make whole project with this tool. This makefile should be able to compile and run all the techniques. In the end of benchmark it should print the results as a bar graph, line graph, and scatter plot using gnuplot.
- - Create a Python local venv environment (add this to Makefile)
- - Create a requirements.txt
- - Install all libraries (add this to Makefile) to make Python files make it run
- - Implement each and every technique for both Python and C
- - Use one 4K test image for testing purposes and one 8K test image for benchmarking.
- - Save the output images with date and time label to an output folder (add this to Makefile)
+## Getting Started & Execution Instructions
+
+This project is built to compile and run on any macOS, Linux, or Windows (WSL) machine with automatic environment and hardware compiler detection.
+
+### 1. Prerequisites
+Ensure the following tools are installed on your system:
+- **C Compiler**: `gcc` or `clang`
+- **Make**: GNU Make build utility
+- **Python**: Python 3.8+ (with `venv` module)
+- **Gnuplot**: Required for automated graph plotting
+- **OpenMP Library** *(Optional)*: E.g., `libomp` on macOS (`brew install libomp`) or `libgomp` on Linux
+- **CUDA Toolkit** *(Optional)*: `nvcc` compiler (if running on a machine with an NVIDIA GPU for CUDA/CuPy execution)
+
+### 2. Project Directory Setup
+- Save your test and benchmark images inside the [`images/`](file:///Users/erolrecep/Downloads/convolution_ops_hpc/images) folder.
+- Configure image targets in the top-level [`Makefile`](file:///Users/erolrecep/Downloads/convolution_ops_hpc/Makefile):
+  ```makefile
+  TEST_IMAGE_4K = images/your_test_image.jpg
+  BENCHMARK_IMAGE_8K = images/your_benchmark_image.jpg
+  ```
+
+### 3. Execution Commands
+All actions are orchestrated via the main Makefile in the root directory:
+
+* **Compile Code**: Detects operating system and GPU compilers (like `nvcc`) to build support stubs or full hardware-accelerated binaries:
+  ```bash
+  make compile
+  ```
+* **Run Functionality Test (4K Image)**: Set up python virtual environment, installs dependencies, builds C binaries, and runs a quick verification test:
+  ```bash
+  make test
+  ```
+* **Run Full Benchmark (8K Image)**: Compiles all targets, runs 4 techniques across the 11 target configurations, updates the timing table in `README.md`, and runs gnuplot pipelines:
+  ```bash
+  make benchmark
+  ```
+  *Or simply execute the default target:*
+  ```bash
+  make
+  ```
+* **Clean the Workspace**: Clears out compiled binaries, Python `.venv` virtual environment, experiment reports, and bytecode caches:
+  ```bash
+  make clean
+  ```
+
+### 4. Benchmark Outputs
+Each execution of `make benchmark` generates an isolated experiment run folder:
+- **Location**: `experiments/<YYYYMMDD_HHMMSS>/`
+- **Content**:
+  - `experiment.yaml`: Detailed metadata of the test run, total run counts, and active order of experiments.
+  - `benchmark_results.csv`: Table containing the timing calculations for each target and technique.
+  - `results/`: Contains generated performance graphs:
+    - `bar_graph.png`
+    - `line_graph.png`
+    - `scatter_plot.png`
  
