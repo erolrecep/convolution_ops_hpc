@@ -10,8 +10,10 @@ __pycache__/
 *.so
 .pytest_cache/
 
-# C compilation artifacts
+# Compilation artifacts
 c_project/bin/
+fortran_project/bin/
+go_project/bin/
 *.o
 *.a
 *.dylib
