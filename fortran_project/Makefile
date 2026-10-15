@@ -1,4 +1,4 @@
-FC ?= gfortran
+FC = gfortran
 CC ?= gcc
 
 FFLAGS = -O3 -fopenmp -Wall
