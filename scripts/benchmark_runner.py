@@ -75,6 +75,17 @@ def main():
                 continue
         active_targets.append((name, cmd))
 
+    # Detect multi-language extended binaries
+    extended_targets = [
+        ("Fortran OpenMP", ["./fortran_project/bin/fortran_conv"]),
+        ("Go Goroutines", ["./go_project/bin/go_conv"]),
+        ("Mojo Separable", ["./mojo_project/bin/mojo_conv"]),
+        ("Common Lisp SBCL", ["./lisp_project/bin/lisp_conv"]),
+    ]
+    for name, cmd in extended_targets:
+        if os.path.exists(cmd[0]):
+            active_targets.append((name, cmd))
+
     # Total runs: active targets x 4 techniques
     total_runs = len(active_targets) * 4
 
