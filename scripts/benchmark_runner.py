@@ -23,7 +23,7 @@ def run_single(cmd_base, tech, input_img, out_img):
     cmd = cmd_base + [str(tech), input_img, out_img]
     try:
         timeout_val = 45 if "pure_python" in cmd_base else 30
-        res = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout_val)
+        res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, timeout=timeout_val)
         if res.returncode != 0:
             return "N/A"
         for line in res.stdout.splitlines():
@@ -38,12 +38,20 @@ def run_single(cmd_base, tech, input_img, out_img):
                     return "N/A"
         return "N/A"
     except subprocess.TimeoutExpired:
+        try:
+            subprocess.run(["pkill", "-9", "-f", "pure_python.py"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except Exception:
+            pass
         return "Timeout (>45s)"
     except Exception as e:
         return "N/A"
 
+import socket
+
 def check_cuda():
-    has_nvcc = subprocess.run(["which", "nvcc"], capture_output=True).returncode == 0
+    if os.path.exists("/usr/local/cuda/bin") and "/usr/local/cuda/bin" not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = "/usr/local/cuda/bin:" + os.environ.get("PATH", "")
+    has_nvcc = subprocess.run(["which", "nvcc"], stdout=subprocess.PIPE, stderr=subprocess.PIPE).returncode == 0
     return has_nvcc
 
 def main():
@@ -70,15 +78,17 @@ def main():
     # Total runs: active targets x 4 techniques
     total_runs = len(active_targets) * 4
 
-    # Timestamp and folder setup
+    # Timestamp, hostname and folder setup
+    hostname = socket.gethostname()
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    exp_dir = os.path.join("experiments", timestamp)
+    exp_dir = os.path.join("experiments", f"{timestamp}_{hostname}")
     results_dir = os.path.join(exp_dir, "results")
     os.makedirs(results_dir, exist_ok=True)
 
     # Create experiment.yaml
     yaml_path = os.path.join(exp_dir, "experiment.yaml")
     with open(yaml_path, "w") as f:
+        f.write(f"hostname: \"{hostname}\"\n")
         f.write(f"input_image: \"{input_img}\"\n")
         f.write(f"total_runs: {total_runs}\n")
         f.write("experiments:\n")

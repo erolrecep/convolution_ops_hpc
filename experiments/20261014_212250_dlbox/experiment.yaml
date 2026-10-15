@@ -1,0 +1,92 @@
+hostname: "dlbox"
+input_image: "images/bmw-m3-touring-24h-7680x4320-26531.jpg"
+total_runs: 44
+experiments:
+  - target: "Pure C"
+    technique: 1
+  - target: "Pure C"
+    technique: 2
+  - target: "Pure C"
+    technique: 3
+  - target: "Pure C"
+    technique: 4
+  - target: "C with pthreads"
+    technique: 1
+  - target: "C with pthreads"
+    technique: 2
+  - target: "C with pthreads"
+    technique: 3
+  - target: "C with pthreads"
+    technique: 4
+  - target: "C with openMP"
+    technique: 1
+  - target: "C with openMP"
+    technique: 2
+  - target: "C with openMP"
+    technique: 3
+  - target: "C with openMP"
+    technique: 4
+  - target: "C with CUDA"
+    technique: 1
+  - target: "C with CUDA"
+    technique: 2
+  - target: "C with CUDA"
+    technique: 3
+  - target: "C with CUDA"
+    technique: 4
+  - target: "C with Metal"
+    technique: 1
+  - target: "C with Metal"
+    technique: 2
+  - target: "C with Metal"
+    technique: 3
+  - target: "C with Metal"
+    technique: 4
+  - target: "Pure Python"
+    technique: 1
+  - target: "Pure Python"
+    technique: 2
+  - target: "Pure Python"
+    technique: 3
+  - target: "Pure Python"
+    technique: 4
+  - target: "Python with NumPy"
+    technique: 1
+  - target: "Python with NumPy"
+    technique: 2
+  - target: "Python with NumPy"
+    technique: 3
+  - target: "Python with NumPy"
+    technique: 4
+  - target: "Python with OpenCV"
+    technique: 1
+  - target: "Python with OpenCV"
+    technique: 2
+  - target: "Python with OpenCV"
+    technique: 3
+  - target: "Python with OpenCV"
+    technique: 4
+  - target: "Python with Numba"
+    technique: 1
+  - target: "Python with Numba"
+    technique: 2
+  - target: "Python with Numba"
+    technique: 3
+  - target: "Python with Numba"
+    technique: 4
+  - target: "Python with CuPy"
+    technique: 1
+  - target: "Python with CuPy"
+    technique: 2
+  - target: "Python with CuPy"
+    technique: 3
+  - target: "Python with CuPy"
+    technique: 4
+  - target: "Python with PyTorch"
+    technique: 1
+  - target: "Python with PyTorch"
+    technique: 2
+  - target: "Python with PyTorch"
+    technique: 3
+  - target: "Python with PyTorch"
+    technique: 4

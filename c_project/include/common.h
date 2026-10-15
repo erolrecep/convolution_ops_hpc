@@ -1,24 +1,15 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#if defined(__has_include) && __has_include("c_common.h")
+#include "c_common.h"
+#else
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
 #include <math.h>
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h"
-
-// 3x3 Gaussian Blur Kernel
-static const float KERNEL[3][3] = {
-    {1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f},
-    {2.0f / 16.0f, 4.0f / 16.0f, 2.0f / 16.0f},
-    {1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f}
-};
 
 typedef struct {
     int width;
@@ -45,7 +36,6 @@ static inline int get_num_cores(void) {
     return (nprocs > 0) ? (int)nprocs : 4;
 }
 
-// Factor n into R x C where R and C are close
 static inline void get_grid_dimensions(int n, int *rows, int *cols) {
     int best_r = 1, best_c = n;
     for (int r = 1; r * r <= n; r++) {
@@ -57,6 +47,19 @@ static inline void get_grid_dimensions(int n, int *rows, int *cols) {
     *rows = best_r;
     *cols = best_c;
 }
+#endif
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+
+// 3x3 Gaussian Blur Kernel
+static const float KERNEL[3][3] = {
+    {1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f},
+    {2.0f / 16.0f, 4.0f / 16.0f, 2.0f / 16.0f},
+    {1.0f / 16.0f, 2.0f / 16.0f, 1.0f / 16.0f}
+};
 
 // Generate regions for Techniques 1-4
 // Technique 1: Equal n regions (R x C grid based on cores)

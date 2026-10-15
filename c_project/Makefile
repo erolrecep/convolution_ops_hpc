@@ -1,13 +1,34 @@
-CC = clang
-CFLAGS = -O3 -Iinclude
-OMP_FLAGS = -I/opt/homebrew/opt/libomp/include -L/opt/homebrew/opt/libomp/lib -Xpreprocessor -fopenmp -lomp
+export PATH := /usr/local/cuda/bin:$(PATH)
+UNAME_S := $(shell uname -s)
+UNAME_M := $(shell uname -m)
+NVCC := $(shell which nvcc 2>/dev/null)
+
+HAS_MONOREPO_C := $(shell if [ -d "../../../_c_" ]; then echo 1; else echo 0; fi)
+
+ifeq ($(HAS_MONOREPO_C),1)
+    MONOREPO_INC = -I../../../_c_/include
+    MONOREPO_LIB = -L../../../_c_/lib -lc_common
+    BUILD_MONOREPO = @$(MAKE) -C ../../../_c_
+else
+    MONOREPO_INC =
+    MONOREPO_LIB =
+    BUILD_MONOREPO =
+endif
+
+ifeq ($(UNAME_S),Darwin)
+    CC ?= clang
+    CFLAGS = -O3 -Iinclude $(MONOREPO_INC)
+    LIBS = $(MONOREPO_LIB)
+    OMP_FLAGS = -I/opt/homebrew/opt/libomp/include -L/opt/homebrew/opt/libomp/lib -Xpreprocessor -fopenmp -lomp
+else
+    CC ?= gcc
+    CFLAGS = -O3 -Iinclude $(MONOREPO_INC)
+    LIBS = $(MONOREPO_LIB) -lm
+    OMP_FLAGS = -fopenmp
+endif
 
 BIN_DIR = bin
 SRC_DIR = src
-
-# Dynamic Hardware Detection
-NVCC := $(shell which nvcc 2>/dev/null)
-UNAME_S := $(shell uname -s)
 
 TARGETS = $(BIN_DIR)/pure_c $(BIN_DIR)/pthreads_c $(BIN_DIR)/openmp_c $(BIN_DIR)/metal_c $(BIN_DIR)/cuda_c
 
@@ -32,26 +53,35 @@ $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
 $(BIN_DIR)/pure_c: $(SRC_DIR)/pure_c.c include/common.h
-	$(CC) $(CFLAGS) $< -o $@
+	$(BUILD_MONOREPO)
+	$(CC) $(CFLAGS) $< $(LIBS) -o $@
 
 $(BIN_DIR)/pthreads_c: $(SRC_DIR)/pthreads_c.c include/common.h
-	$(CC) $(CFLAGS) -pthread $< -o $@
+	$(BUILD_MONOREPO)
+	$(CC) $(CFLAGS) -pthread $< $(LIBS) -o $@
 
 $(BIN_DIR)/openmp_c: $(SRC_DIR)/openmp_c.c include/common.h
-	$(CC) $(CFLAGS) $(OMP_FLAGS) $< -o $@
+	$(BUILD_MONOREPO)
+	$(CC) $(CFLAGS) $(OMP_FLAGS) $< $(LIBS) -o $@
 
 $(BIN_DIR)/metal_c: include/common.h
+	$(BUILD_MONOREPO)
 ifeq ($(UNAME_S),Darwin)
-	$(CC) $(CFLAGS) -framework Metal -framework Foundation $(SRC_DIR)/metal_c.m -o $@
+	$(CC) $(CFLAGS) -framework Metal -framework Foundation $(SRC_DIR)/metal_c.m $(LIBS) -o $@
 else
-	$(CC) $(CFLAGS) $(SRC_DIR)/metal_stub.c -o $@
+	$(CC) $(CFLAGS) $(SRC_DIR)/metal_stub.c $(LIBS) -o $@
 endif
 
 $(BIN_DIR)/cuda_c: include/common.h
+	$(BUILD_MONOREPO)
 ifneq ($(NVCC),)
-	nvcc -O3 -Iinclude $(SRC_DIR)/cuda_c.cu -o $@
+ifeq ($(UNAME_M),aarch64)
+	nvcc -O3 -arch=sm_53 -Iinclude $(MONOREPO_INC) $(SRC_DIR)/cuda_c.cu $(MONOREPO_LIB) -o $@
 else
-	$(CC) $(CFLAGS) $(SRC_DIR)/cuda_stub.c -o $@
+	nvcc -O3 -Iinclude $(MONOREPO_INC) $(SRC_DIR)/cuda_c.cu $(MONOREPO_LIB) -o $@
+endif
+else
+	$(CC) $(CFLAGS) $(SRC_DIR)/cuda_stub.c $(LIBS) -o $@
 endif
 
 clean:

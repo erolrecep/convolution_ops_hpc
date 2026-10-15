@@ -37,9 +37,9 @@ def main():
 
     # Write formatted data file for gnuplot
     targets = [
-        "Pure C", "C with pthreads", "C with openMP", "C with Metal",
+        "Pure C", "C with pthreads", "C with openMP", "C with CUDA", "C with Metal",
         "Pure Python", "Python with NumPy", "Python with OpenCV",
-        "Python with Numba", "Python with PyTorch"
+        "Python with Numba", "Python with CuPy", "Python with PyTorch"
     ]
 
     with open(dat_path, "w") as f:
@@ -107,9 +107,23 @@ plot '{dat_path}' using 0:2:xtic(1) with points pt 7 ps 2 title 'Technique 1', \
      '' using 0:5 with points pt 13 ps 2 title 'Technique 4'
 """
 
+    import shutil
+    gnuplot_cmd = shutil.which("gnuplot")
+    if not gnuplot_cmd:
+        for candidate in [
+            os.path.expanduser("~/miniforge3/bin/gnuplot"),
+            os.path.join(os.path.dirname(sys.executable), "gnuplot"),
+            "/usr/bin/gnuplot", "/usr/local/bin/gnuplot", "/opt/homebrew/bin/gnuplot"
+        ]:
+            if os.path.exists(candidate):
+                gnuplot_cmd = candidate
+                break
+    if not gnuplot_cmd:
+        gnuplot_cmd = "gnuplot"
+
     # Execute gnuplot commands by piping the commands directly to gnuplot stdin
     for gp_content in [bar_gp, line_gp, scatter_gp]:
-        p = subprocess.Popen(["gnuplot"], stdin=subprocess.PIPE, text=True)
+        p = subprocess.Popen([gnuplot_cmd], stdin=subprocess.PIPE, universal_newlines=True)
         p.communicate(input=gp_content)
 
     print(f"Generated performance graphs in: {output_dir}")

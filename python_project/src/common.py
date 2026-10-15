@@ -13,7 +13,7 @@ def get_num_cores():
 
 def get_grid_dimensions(n):
     best_r, best_c = 1, n
-    for r in range(1, int(math.isqrt(n)) + 1):
+    for r in range(1, int(n**0.5) + 1):
         if n % r == 0:
             best_r = r
             best_c = n // r

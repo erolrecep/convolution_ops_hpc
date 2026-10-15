@@ -122,12 +122,13 @@ Build a 2D table on one-side is programming language with tools and other size i
 This project is built to compile and run on any macOS, Linux, or Windows (WSL) machine with automatic environment and hardware compiler detection.
 
 ### 1. Prerequisites
-Ensure the following tools are installed on your system:
-- **C Compiler**: `gcc` or `clang`
+System dependencies will be **automatically detected and installed** via `make` (`sys-deps` target):
+- **C Compiler**: `gcc` or `clang` (Build toolchain)
 - **Make**: GNU Make build utility
 - **Python**: Python 3.8+ (with `venv` module)
-- **Gnuplot**: Required for automated graph plotting
-- **OpenMP Library** *(Optional)*: E.g., `libomp` on macOS (`brew install libomp`) or `libgomp` on Linux
+- **Gnuplot**: Required for automated graph plotting (Auto-installed if missing)
+- **OpenMP Library**: `libomp` on macOS / Linux (Auto-installed if missing)
+- **curl**: Utility for fetching required C header files (Auto-installed if missing)
 - **CUDA Toolkit** *(Optional)*: `nvcc` compiler (if running on a machine with an NVIDIA GPU for CUDA/CuPy execution)
 
 ### 2. Project Directory Setup
@@ -141,6 +142,12 @@ Ensure the following tools are installed on your system:
 ### 3. Execution Commands
 All actions are orchestrated via the main Makefile in the root directory:
 
+* **Show Available Commands (Default)**: Displays the full list of commands with explanations:
+  ```bash
+  make
+  # or
+  make help
+  ```
 * **Compile Code**: Detects operating system and GPU compilers (like `nvcc`) to build support stubs or full hardware-accelerated binaries:
   ```bash
   make compile
@@ -152,10 +159,6 @@ All actions are orchestrated via the main Makefile in the root directory:
 * **Run Full Benchmark (8K Image)**: Compiles all targets, runs 4 techniques across the 11 target configurations, updates the timing table in `README.md`, and runs gnuplot pipelines:
   ```bash
   make benchmark
-  ```
-  *Or simply execute the default target:*
-  ```bash
-  make
   ```
 * **Clean the Workspace**: Clears out compiled binaries, Python `.venv` virtual environment, experiment reports, and bytecode caches:
   ```bash

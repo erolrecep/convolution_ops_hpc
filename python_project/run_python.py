@@ -29,14 +29,8 @@ def main():
         sys.exit(1)
 
     script_path = os.path.join(SRC_DIR, VARIANTS[variant])
-    cmd = [sys.executable, script_path, technique, input_path, output_path]
-
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.returncode != 0:
-        print(f"Error running {variant}: {result.stderr}")
-        sys.exit(result.returncode)
-
-    print(result.stdout.strip())
+    args = [sys.executable, script_path, technique, input_path, output_path]
+    os.execv(sys.executable, args)
 
 if __name__ == "__main__":
     main()

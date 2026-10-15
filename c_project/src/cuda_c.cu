@@ -81,7 +81,9 @@ int main(int argc, char **argv) {
     double elapsed = get_time_sec() - start_time;
 
     cudaMemcpy(out.data, d_out, data_size, cudaMemcpyDeviceToHost);
-    stbi_write_jpg(output_path, out.width, out.height, out.channels, out.data, 90);
+    if (strcmp(output_path, "none") != 0) {
+        stbi_write_jpg(output_path, out.width, out.height, out.channels, out.data, 90);
+    }
 
     cudaFree(d_in);
     cudaFree(d_out);

@@ -19,9 +19,13 @@ def main():
     if img is None:
         print(f"Error loading image {input_path}")
         sys.exit(1)
-
     H, W, C = img.shape
-    device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
 
     # Construct kernel weight tensor (C, 1, 3, 3) for depthwise conv2d
     kernel_tensor = torch.tensor(KERNEL, dtype=torch.float32, device=device).unsqueeze(0).unsqueeze(0)

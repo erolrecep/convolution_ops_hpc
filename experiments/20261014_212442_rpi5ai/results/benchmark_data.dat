@@ -1,0 +1,12 @@
+# Target	Tech1	Tech2	Tech3	Tech4
+"Pure C"	1.5028	1.5005	1.4947	1.4993
+"C with pthreads"	0.2747	1.0936	0.2906	0.2745
+"C with openMP"	0.3757	1.4579	0.3772	0.3759
+"C with CUDA"	0.0000	0.0000	0.0000	0.0000
+"C with Metal"	0.0000	0.0000	0.0000	0.0000
+"Pure Python"	0.0000	0.0000	0.0000	0.0000
+"Python with NumPy"	3.0127	3.1757	3.0689	3.8602
+"Python with OpenCV"	0.3882	0.4175	0.4800	0.4545
+"Python with Numba"	0.4548	0.5528	0.4900	0.5410
+"Python with CuPy"	0.0000	0.0000	0.0000	0.0000
+"Python with PyTorch"	3.2776	14.2122	3.4157	3.4261

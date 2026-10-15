@@ -1,0 +1,22 @@
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# C compilation artifacts
+c_project/bin/
+*.o
+*.a
+*.dylib
+
+# Local temporary benchmark outputs & OS files
+/benchmark_results.csv
+.DS_Store
+Thumbs.db

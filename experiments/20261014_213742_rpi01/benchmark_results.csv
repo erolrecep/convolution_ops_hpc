@@ -1,0 +1,45 @@
+Target,Technique,Time
+Pure C,Technique 1,3.3717s
+Pure C,Technique 2,3.3708s
+Pure C,Technique 3,3.3742s
+Pure C,Technique 4,3.3647s
+C with pthreads,Technique 1,0.8202s
+C with pthreads,Technique 2,3.2379s
+C with pthreads,Technique 3,0.8225s
+C with pthreads,Technique 4,0.8312s
+C with openMP,Technique 1,0.9686s
+C with openMP,Technique 2,3.8331s
+C with openMP,Technique 3,0.9708s
+C with openMP,Technique 4,0.9672s
+C with CUDA,Technique 1,N/A
+C with CUDA,Technique 2,N/A
+C with CUDA,Technique 3,N/A
+C with CUDA,Technique 4,N/A
+C with Metal,Technique 1,N/A
+C with Metal,Technique 2,N/A
+C with Metal,Technique 3,N/A
+C with Metal,Technique 4,N/A
+Pure Python,Technique 1,Timeout (>45s)
+Pure Python,Technique 2,Timeout (>45s)
+Pure Python,Technique 3,Timeout (>45s)
+Pure Python,Technique 4,Timeout (>45s)
+Python with NumPy,Technique 1,10.5127s
+Python with NumPy,Technique 2,10.6162s
+Python with NumPy,Technique 3,10.4802s
+Python with NumPy,Technique 4,11.5806s
+Python with OpenCV,Technique 1,0.8447s
+Python with OpenCV,Technique 2,0.8960s
+Python with OpenCV,Technique 3,0.8495s
+Python with OpenCV,Technique 4,0.8854s
+Python with Numba,Technique 1,0.5171s
+Python with Numba,Technique 2,0.5400s
+Python with Numba,Technique 3,0.5164s
+Python with Numba,Technique 4,0.5167s
+Python with CuPy,Technique 1,N/A
+Python with CuPy,Technique 2,N/A
+Python with CuPy,Technique 3,N/A
+Python with CuPy,Technique 4,N/A
+Python with PyTorch,Technique 1,7.6097s
+Python with PyTorch,Technique 2,13.4447s
+Python with PyTorch,Technique 3,7.6334s
+Python with PyTorch,Technique 4,7.6717s

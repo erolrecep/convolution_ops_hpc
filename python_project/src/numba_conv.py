@@ -45,8 +45,8 @@ def main():
 
     regions = get_regions(technique, W, H)
 
-    # Warm-up JIT compilation on a tiny region
-    numba_conv_kernel(img[:4, :4], out[:4, :4], 0, 4, 0, 4)
+    # Warm-up JIT compilation on the actual contiguous array
+    numba_conv_kernel(img, out, 0, min(W, 4), 0, min(H, 4))
 
     start_time = time.time()
     for x_start, x_end, y_start, y_end in regions:
