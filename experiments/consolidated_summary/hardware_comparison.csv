@@ -1,4 +1,10 @@
-Target,Technique,"Apple M5 Max 16"" (18C / 40GPU / 128GB)",dlbox (Threadripper 2950X + RTX 5060 Ti),Jetson Nano (4C A57 + Maxwell 128-core),Raspberry Pi 5 (4C A76 @ 2.4GHz / 16GB),Raspberry Pi 4 (4C A72 @ 1.5GHz / 8GB)
+Target,Technique,"Apple M5 Max 16"" (18C / 40GPU / 36GB)",dlbox (Threadripper 2950X + RTX 5060 Ti),Jetson Nano (4C A57 + Maxwell 128-core),Raspberry Pi 5 (4C A76 @ 2.4GHz / 8GB),Raspberry Pi 4 (4C A72 @ 1.8GHz / 8GB)
+C Level 4 Fused Ring-Buffer,Technique 3 (Multi-Thread),0.0015s,0.0077s,0.0511s,0.0334s,0.0484s
+Level 5 GPU Tiled Kernel,Technique 3 (CUDA/Metal),0.00196s,0.00106s,0.0662s,N/A,N/A
+Fortran with openMP,Technique 3 (Row-Parallel),0.0176s,0.0674s,0.9621s,0.2514s,0.5041s
+Common Lisp (SBCL),Technique 3 (sb-thread),0.0670s,0.1075s,18.0737s,2.1175s,6.2195s
+Go (Goroutines),Technique 3 (Worker Pool),0.0770s,0.1410s,3.1913s,0.9535s,1.8155s
+Mojo 1.1 (Modular MAX),Technique 3 (Separable),0.1041s,0.2557s,N/A (ARMv8.0),0.4753s,N/A (ARMv8.0)
 Pure C,Technique 1,0.1369s,1.0422s,2.5779s,1.5028s,3.3717s
 Pure C,Technique 2,0.1420s,0.9845s,2.4825s,1.5005s,3.3708s
 Pure C,Technique 3,0.1382s,0.9690s,2.4755s,1.4947s,3.3742s
@@ -35,10 +41,6 @@ Python with Numba,Technique 1,0.0284s,0.1048s,N/A,0.4548s,0.5171s
 Python with Numba,Technique 2,0.0216s,0.0688s,N/A,0.5528s,0.5400s
 Python with Numba,Technique 3,0.0278s,0.1157s,N/A,0.4900s,0.5164s
 Python with Numba,Technique 4,0.0295s,0.1238s,N/A,0.5410s,0.5167s
-Python with CuPy,Technique 1,N/A,N/A,N/A,N/A,N/A
-Python with CuPy,Technique 2,N/A,N/A,N/A,N/A,N/A
-Python with CuPy,Technique 3,N/A,N/A,N/A,N/A,N/A
-Python with CuPy,Technique 4,N/A,N/A,N/A,N/A,N/A
 Python with PyTorch,Technique 1,0.1967s,0.6369s,N/A,3.2776s,7.6097s
 Python with PyTorch,Technique 2,0.3949s,0.6411s,N/A,14.2122s,13.4447s
 Python with PyTorch,Technique 3,0.1994s,0.5390s,N/A,3.4157s,7.6334s
